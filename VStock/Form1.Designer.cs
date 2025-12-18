@@ -29,34 +29,51 @@
         private void InitializeComponent()
         {
             HistoryView = new ListView();
+            TimeStamp = new ColumnHeader();
+            StockId = new ColumnHeader();
+            SearchType = new ColumnHeader();
             label1 = new Label();
             SearchArea = new GroupBox();
-            textBox1 = new TextBox();
-            label2 = new Label();
-            SRealTime = new RadioButton();
-            SHistory = new RadioButton();
-            DateFrom = new DateTimePicker();
-            label3 = new Label();
             label4 = new Label();
             DateTo = new DateTimePicker();
-            listView1 = new ListView();
+            label3 = new Label();
+            DateFrom = new DateTimePicker();
+            SHistory = new RadioButton();
+            SRealTime = new RadioButton();
+            label2 = new Label();
+            StockIdInput = new TextBox();
+            SearchList = new ListView();
             SListAdd = new Button();
             SListDel = new Button();
             SearchVStock = new Button();
             SearchTrad = new Button();
-            TimeStamp = new ColumnHeader();
-            StockId = new ColumnHeader();
             SearchArea.SuspendLayout();
             SuspendLayout();
             // 
             // HistoryView
             // 
-            HistoryView.Columns.AddRange(new ColumnHeader[] { TimeStamp, StockId });
+            HistoryView.Columns.AddRange(new ColumnHeader[] { TimeStamp, StockId, SearchType });
             HistoryView.Location = new Point(24, 51);
             HistoryView.Name = "HistoryView";
             HistoryView.Size = new Size(457, 418);
             HistoryView.TabIndex = 0;
             HistoryView.UseCompatibleStateImageBehavior = false;
+            HistoryView.View = View.Details;
+            // 
+            // TimeStamp
+            // 
+            TimeStamp.Text = "時間";
+            TimeStamp.Width = 200;
+            // 
+            // StockId
+            // 
+            StockId.Text = "股票代碼";
+            StockId.Width = 120;
+            // 
+            // SearchType
+            // 
+            SearchType.Text = "查詢分析分法";
+            SearchType.Width = 120;
             // 
             // label1
             // 
@@ -77,69 +94,13 @@
             SearchArea.Controls.Add(SHistory);
             SearchArea.Controls.Add(SRealTime);
             SearchArea.Controls.Add(label2);
-            SearchArea.Controls.Add(textBox1);
+            SearchArea.Controls.Add(StockIdInput);
             SearchArea.Location = new Point(508, 51);
             SearchArea.Name = "SearchArea";
             SearchArea.Size = new Size(359, 226);
             SearchArea.TabIndex = 2;
             SearchArea.TabStop = false;
             SearchArea.Text = "查詢股票";
-            // 
-            // textBox1
-            // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(81, 43);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(268, 27);
-            textBox1.TabIndex = 0;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 45);
-            label2.Name = "label2";
-            label2.Size = new Size(72, 19);
-            label2.TabIndex = 1;
-            label2.Text = "股票代碼:";
-            // 
-            // SRealTime
-            // 
-            SRealTime.AutoSize = true;
-            SRealTime.Location = new Point(16, 89);
-            SRealTime.Name = "SRealTime";
-            SRealTime.Size = new Size(90, 23);
-            SRealTime.TabIndex = 2;
-            SRealTime.TabStop = true;
-            SRealTime.Text = "即時資料";
-            SRealTime.UseVisualStyleBackColor = true;
-            // 
-            // SHistory
-            // 
-            SHistory.AutoSize = true;
-            SHistory.Location = new Point(16, 118);
-            SHistory.Name = "SHistory";
-            SHistory.Size = new Size(90, 23);
-            SHistory.TabIndex = 3;
-            SHistory.TabStop = true;
-            SHistory.Text = "歷史資料";
-            SHistory.UseVisualStyleBackColor = true;
-            // 
-            // DateFrom
-            // 
-            DateFrom.Enabled = false;
-            DateFrom.Location = new Point(81, 147);
-            DateFrom.Name = "DateFrom";
-            DateFrom.Size = new Size(250, 27);
-            DateFrom.TabIndex = 4;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(54, 153);
-            label3.Name = "label3";
-            label3.Size = new Size(24, 19);
-            label3.TabIndex = 5;
-            label3.Text = "從";
             // 
             // label4
             // 
@@ -158,13 +119,71 @@
             DateTo.Size = new Size(250, 27);
             DateTo.TabIndex = 6;
             // 
-            // listView1
+            // label3
             // 
-            listView1.Location = new Point(508, 283);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(359, 60);
-            listView1.TabIndex = 3;
-            listView1.UseCompatibleStateImageBehavior = false;
+            label3.AutoSize = true;
+            label3.Location = new Point(54, 153);
+            label3.Name = "label3";
+            label3.Size = new Size(24, 19);
+            label3.TabIndex = 5;
+            label3.Text = "從";
+            // 
+            // DateFrom
+            // 
+            DateFrom.Enabled = false;
+            DateFrom.Location = new Point(81, 147);
+            DateFrom.Name = "DateFrom";
+            DateFrom.Size = new Size(250, 27);
+            DateFrom.TabIndex = 4;
+            // 
+            // SHistory
+            // 
+            SHistory.AutoSize = true;
+            SHistory.Location = new Point(16, 118);
+            SHistory.Name = "SHistory";
+            SHistory.Size = new Size(90, 23);
+            SHistory.TabIndex = 3;
+            SHistory.Text = "歷史資料";
+            SHistory.UseVisualStyleBackColor = true;
+            SHistory.CheckedChanged += SHistory_CheckedChanged;
+            // 
+            // SRealTime
+            // 
+            SRealTime.AutoSize = true;
+            SRealTime.Checked = true;
+            SRealTime.Location = new Point(16, 89);
+            SRealTime.Name = "SRealTime";
+            SRealTime.Size = new Size(90, 23);
+            SRealTime.TabIndex = 2;
+            SRealTime.TabStop = true;
+            SRealTime.Text = "即時資料";
+            SRealTime.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 45);
+            label2.Name = "label2";
+            label2.Size = new Size(72, 19);
+            label2.TabIndex = 1;
+            label2.Text = "股票代碼:";
+            // 
+            // StockIdInput
+            // 
+            StockIdInput.BorderStyle = BorderStyle.FixedSingle;
+            StockIdInput.Location = new Point(81, 43);
+            StockIdInput.Name = "StockIdInput";
+            StockIdInput.Size = new Size(268, 27);
+            StockIdInput.TabIndex = 0;
+            // 
+            // SearchList
+            // 
+            SearchList.Location = new Point(508, 283);
+            SearchList.Name = "SearchList";
+            SearchList.Size = new Size(359, 60);
+            SearchList.TabIndex = 3;
+            SearchList.UseCompatibleStateImageBehavior = false;
+            SearchList.View = View.SmallIcon;
             // 
             // SListAdd
             // 
@@ -174,6 +193,7 @@
             SListAdd.TabIndex = 4;
             SListAdd.Text = "加入查詢列表";
             SListAdd.UseVisualStyleBackColor = true;
+            SListAdd.Click += SListAdd_Click;
             // 
             // SListDel
             // 
@@ -183,6 +203,7 @@
             SListDel.TabIndex = 5;
             SListDel.Text = "從列表刪除";
             SListDel.UseVisualStyleBackColor = true;
+            SListDel.Click += SListDel_Click;
             // 
             // SearchVStock
             // 
@@ -192,6 +213,7 @@
             SearchVStock.TabIndex = 7;
             SearchVStock.Text = "VStock 查詢分析";
             SearchVStock.UseVisualStyleBackColor = true;
+            SearchVStock.Click += SearchVStock_Click;
             // 
             // SearchTrad
             // 
@@ -201,14 +223,7 @@
             SearchTrad.TabIndex = 6;
             SearchTrad.Text = "傳統查詢分析";
             SearchTrad.UseVisualStyleBackColor = true;
-            // 
-            // TimeStamp
-            // 
-            TimeStamp.Text = "時間";
-            // 
-            // StockId
-            // 
-            StockId.Text = "股票代碼";
+            SearchTrad.Click += SearchTrad_Click;
             // 
             // HomePage
             // 
@@ -219,7 +234,7 @@
             Controls.Add(SearchTrad);
             Controls.Add(SListDel);
             Controls.Add(SListAdd);
-            Controls.Add(listView1);
+            Controls.Add(SearchList);
             Controls.Add(SearchArea);
             Controls.Add(label1);
             Controls.Add(HistoryView);
@@ -237,19 +252,20 @@
         private Label label1;
         private GroupBox SearchArea;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox StockIdInput;
         private RadioButton SHistory;
         private RadioButton SRealTime;
         private Label label4;
         private DateTimePicker DateTo;
         private Label label3;
         private DateTimePicker DateFrom;
-        private ListView listView1;
+        private ListView SearchList;
         private Button SListAdd;
         private Button SListDel;
         private Button SearchVStock;
         private Button SearchTrad;
         private ColumnHeader TimeStamp;
         private ColumnHeader StockId;
+        private ColumnHeader SearchType;
     }
 }
