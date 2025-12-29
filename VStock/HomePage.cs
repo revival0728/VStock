@@ -4,6 +4,10 @@
     {
         TradSPage tradSPage = new TradSPage();
 
+        readonly string searchingString = "查詢中...";
+        readonly string tradSString = "傳統查詢分析";
+        readonly string vStockSString = "VStock 查詢分析";
+
         public HomePage()
         {
             InitializeComponent();
@@ -49,6 +53,7 @@
 
         private async void SearchTrad_Click(object sender, EventArgs e)
         {
+            SearchTrad.Text = searchingString;
             var nowTime = DateTime.Now;
             if (SRealTime.Checked)
             {
@@ -126,10 +131,12 @@
                     return;
                 }
             }
+            SearchTrad.Text = tradSString;
         }
 
         private void SearchVStock_Click(object sender, EventArgs e)
         {
+            SearchVStock.Text = searchingString;
             var nowTime = DateTime.Now;
             // TODO: Implement search functionality
             if (SRealTime.Checked)
@@ -154,6 +161,7 @@
                     "VSH",
                 }));
             }
+            SearchVStock.Text = vStockSString;
         }
     }
 }
