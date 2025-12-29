@@ -1,4 +1,5 @@
-﻿using Skender.Stock.Indicators;
+﻿using ScottPlot;
+using Skender.Stock.Indicators;
 
 namespace VStock
 {
@@ -10,5 +11,18 @@ namespace VStock
         public decimal Low { get; set; }
         public decimal Close { get; set; }
         public decimal Volume { get; set; }
+
+        public OHLC ToOHLC()
+        {
+            return new OHLC
+            {
+                Open = (double)this.Open,
+                High = (double)this.High,
+                Low = (double)this.Low,
+                Close = (double)this.Close,
+                DateTime = this.Date,
+                TimeSpan = TimeSpan.FromDays(1)
+            };
+        }
     }
 }

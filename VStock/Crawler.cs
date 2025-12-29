@@ -4,9 +4,9 @@ namespace VStock
 {
     public class Crawler
     {
-        public async Task<List<Stock>> GetRealTime(string[] stockIds)
+        public static async Task<List<Stock>> GetRealTime(List<string> stockIds)
         {
-            var securities = await Yahoo.Symbols(stockIds).Fields(
+            var securities = await Yahoo.Symbols(stockIds.ToArray()).Fields(
                 Field.Symbol, 
                 Field.RegularMarketOpen, 
                 Field.RegularMarketDayHigh,
@@ -31,7 +31,7 @@ namespace VStock
             return res;
         }
 
-        public async Task<List<Stock>> GetHistorical(string stockId, DateTime from, DateTime to)
+        public static async Task<List<Stock>> GetHistorical(string stockId, DateTime from, DateTime to)
         {
             var history = await Yahoo.GetHistoricalAsync(stockId, from, to, Period.Daily);
             var res = new List<Stock>();

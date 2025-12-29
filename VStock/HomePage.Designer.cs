@@ -53,9 +53,10 @@
             // HistoryView
             // 
             HistoryView.Columns.AddRange(new ColumnHeader[] { TimeStamp, StockId, SearchType });
-            HistoryView.Location = new Point(24, 51);
+            HistoryView.Location = new Point(37, 81);
+            HistoryView.Margin = new Padding(5, 5, 5, 5);
             HistoryView.Name = "HistoryView";
-            HistoryView.Size = new Size(457, 418);
+            HistoryView.Size = new Size(709, 658);
             HistoryView.TabIndex = 0;
             HistoryView.UseCompatibleStateImageBehavior = false;
             HistoryView.View = View.Details;
@@ -63,25 +64,26 @@
             // TimeStamp
             // 
             TimeStamp.Text = "時間";
-            TimeStamp.Width = 200;
+            TimeStamp.Width = 350;
             // 
             // StockId
             // 
             StockId.Text = "股票代碼";
-            StockId.Width = 120;
+            StockId.Width = 150;
             // 
             // SearchType
             // 
             SearchType.Text = "查詢分析分法";
-            SearchType.Width = 120;
+            SearchType.Width = 160;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(24, 23);
+            label1.Location = new Point(37, 36);
+            label1.Margin = new Padding(5, 0, 5, 0);
             label1.Name = "label1";
-            label1.Size = new Size(92, 25);
+            label1.Size = new Size(146, 41);
             label1.TabIndex = 1;
             label1.Text = "查詢歷史";
             // 
@@ -95,9 +97,11 @@
             SearchArea.Controls.Add(SRealTime);
             SearchArea.Controls.Add(label2);
             SearchArea.Controls.Add(StockIdInput);
-            SearchArea.Location = new Point(508, 51);
+            SearchArea.Location = new Point(790, 81);
+            SearchArea.Margin = new Padding(5, 5, 5, 5);
             SearchArea.Name = "SearchArea";
-            SearchArea.Size = new Size(359, 226);
+            SearchArea.Padding = new Padding(5, 5, 5, 5);
+            SearchArea.Size = new Size(558, 357);
             SearchArea.TabIndex = 2;
             SearchArea.TabStop = false;
             SearchArea.Text = "查詢股票";
@@ -105,43 +109,48 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(54, 186);
+            label4.Location = new Point(84, 294);
+            label4.Margin = new Padding(5, 0, 5, 0);
             label4.Name = "label4";
-            label4.Size = new Size(24, 19);
+            label4.Size = new Size(37, 30);
             label4.TabIndex = 7;
             label4.Text = "到";
             // 
             // DateTo
             // 
             DateTo.Enabled = false;
-            DateTo.Location = new Point(81, 180);
+            DateTo.Location = new Point(126, 284);
+            DateTo.Margin = new Padding(5, 5, 5, 5);
             DateTo.Name = "DateTo";
-            DateTo.Size = new Size(250, 27);
+            DateTo.Size = new Size(387, 38);
             DateTo.TabIndex = 6;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(54, 153);
+            label3.Location = new Point(84, 242);
+            label3.Margin = new Padding(5, 0, 5, 0);
             label3.Name = "label3";
-            label3.Size = new Size(24, 19);
+            label3.Size = new Size(37, 30);
             label3.TabIndex = 5;
             label3.Text = "從";
             // 
             // DateFrom
             // 
             DateFrom.Enabled = false;
-            DateFrom.Location = new Point(81, 147);
+            DateFrom.Location = new Point(126, 232);
+            DateFrom.Margin = new Padding(5, 5, 5, 5);
             DateFrom.Name = "DateFrom";
-            DateFrom.Size = new Size(250, 27);
+            DateFrom.Size = new Size(387, 38);
             DateFrom.TabIndex = 4;
             // 
             // SHistory
             // 
             SHistory.AutoSize = true;
-            SHistory.Location = new Point(16, 118);
+            SHistory.Location = new Point(25, 186);
+            SHistory.Margin = new Padding(5, 5, 5, 5);
             SHistory.Name = "SHistory";
-            SHistory.Size = new Size(90, 23);
+            SHistory.Size = new Size(140, 34);
             SHistory.TabIndex = 3;
             SHistory.Text = "歷史資料";
             SHistory.UseVisualStyleBackColor = true;
@@ -151,9 +160,10 @@
             // 
             SRealTime.AutoSize = true;
             SRealTime.Checked = true;
-            SRealTime.Location = new Point(16, 89);
+            SRealTime.Location = new Point(25, 141);
+            SRealTime.Margin = new Padding(5, 5, 5, 5);
             SRealTime.Name = "SRealTime";
-            SRealTime.Size = new Size(90, 23);
+            SRealTime.Size = new Size(140, 34);
             SRealTime.TabIndex = 2;
             SRealTime.TabStop = true;
             SRealTime.Text = "即時資料";
@@ -162,34 +172,38 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 45);
+            label2.Location = new Point(9, 71);
+            label2.Margin = new Padding(5, 0, 5, 0);
             label2.Name = "label2";
-            label2.Size = new Size(72, 19);
+            label2.Size = new Size(115, 30);
             label2.TabIndex = 1;
             label2.Text = "股票代碼:";
             // 
             // StockIdInput
             // 
             StockIdInput.BorderStyle = BorderStyle.FixedSingle;
-            StockIdInput.Location = new Point(81, 43);
+            StockIdInput.Location = new Point(126, 68);
+            StockIdInput.Margin = new Padding(5, 5, 5, 5);
             StockIdInput.Name = "StockIdInput";
-            StockIdInput.Size = new Size(268, 27);
+            StockIdInput.Size = new Size(416, 38);
             StockIdInput.TabIndex = 0;
             // 
             // SearchList
             // 
-            SearchList.Location = new Point(508, 283);
+            SearchList.Location = new Point(790, 447);
+            SearchList.Margin = new Padding(5, 5, 5, 5);
             SearchList.Name = "SearchList";
-            SearchList.Size = new Size(359, 60);
+            SearchList.Size = new Size(556, 92);
             SearchList.TabIndex = 3;
             SearchList.UseCompatibleStateImageBehavior = false;
             SearchList.View = View.SmallIcon;
             // 
             // SListAdd
             // 
-            SListAdd.Location = new Point(514, 359);
+            SListAdd.Location = new Point(800, 567);
+            SListAdd.Margin = new Padding(5, 5, 5, 5);
             SListAdd.Name = "SListAdd";
-            SListAdd.Size = new Size(162, 46);
+            SListAdd.Size = new Size(252, 73);
             SListAdd.TabIndex = 4;
             SListAdd.Text = "加入查詢列表";
             SListAdd.UseVisualStyleBackColor = true;
@@ -197,9 +211,10 @@
             // 
             // SListDel
             // 
-            SListDel.Location = new Point(699, 359);
+            SListDel.Location = new Point(1087, 567);
+            SListDel.Margin = new Padding(5, 5, 5, 5);
             SListDel.Name = "SListDel";
-            SListDel.Size = new Size(158, 46);
+            SListDel.Size = new Size(246, 73);
             SListDel.TabIndex = 5;
             SListDel.Text = "從列表刪除";
             SListDel.UseVisualStyleBackColor = true;
@@ -207,9 +222,10 @@
             // 
             // SearchVStock
             // 
-            SearchVStock.Location = new Point(699, 422);
+            SearchVStock.Location = new Point(1087, 666);
+            SearchVStock.Margin = new Padding(5, 5, 5, 5);
             SearchVStock.Name = "SearchVStock";
-            SearchVStock.Size = new Size(158, 47);
+            SearchVStock.Size = new Size(246, 74);
             SearchVStock.TabIndex = 7;
             SearchVStock.Text = "VStock 查詢分析";
             SearchVStock.UseVisualStyleBackColor = true;
@@ -217,9 +233,10 @@
             // 
             // SearchTrad
             // 
-            SearchTrad.Location = new Point(514, 422);
+            SearchTrad.Location = new Point(800, 666);
+            SearchTrad.Margin = new Padding(5, 5, 5, 5);
             SearchTrad.Name = "SearchTrad";
-            SearchTrad.Size = new Size(162, 47);
+            SearchTrad.Size = new Size(252, 74);
             SearchTrad.TabIndex = 6;
             SearchTrad.Text = "傳統查詢分析";
             SearchTrad.UseVisualStyleBackColor = true;
@@ -227,9 +244,9 @@
             // 
             // HomePage
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleDimensions = new SizeF(14F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(898, 494);
+            ClientSize = new Size(1397, 780);
             Controls.Add(SearchVStock);
             Controls.Add(SearchTrad);
             Controls.Add(SListDel);
@@ -238,6 +255,7 @@
             Controls.Add(SearchArea);
             Controls.Add(label1);
             Controls.Add(HistoryView);
+            Margin = new Padding(5, 5, 5, 5);
             Name = "HomePage";
             Text = "VStock";
             SearchArea.ResumeLayout(false);
