@@ -31,12 +31,21 @@ namespace VStock
             return res;
         }
 
+        static bool PartialEq(decimal a, decimal b)
+        {
+            return Math.Abs(a - b) < (decimal)1e-6;
+        }
+
         public static async Task<List<Stock>> GetHistorical(string stockId, DateTime from, DateTime to)
         {
             var history = await Yahoo.GetHistoricalAsync(stockId, from, to, Period.Daily);
             var res = new List<Stock>();
             foreach (var item in history)
             {
+                if (PartialEq(item.High, item.Low) || (PartialEq(item.High, 0) && PartialEq(item.Low, 0)))
+                {
+                    continue;
+                }
                 res.Add(new Stock
                 {
                     Date = item.DateTime,
