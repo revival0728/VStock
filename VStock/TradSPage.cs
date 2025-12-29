@@ -1,7 +1,8 @@
 ﻿using ScottPlot;
+using ScottPlot.Plottables;
 using ScottPlot.DataSources;
 using Skender.Stock.Indicators;
-using System.Security;
+using System.Linq.Expressions;
 
 namespace VStock
 {
@@ -10,12 +11,23 @@ namespace VStock
         // Plot Function
         // 1. SMA
         // 2. Bollinger Bands (BollingerB)
-        List<ScottPlot.Plottables.Scatter> smaScatters = new();
-        List<ScottPlot.Plottables.Scatter> bbScatters = new();
+        // 3. RSI
+        // 4. MACD
+        List<Scatter> smaScatters = new();
+        List<Scatter> bbScatters = new();
+        List<Scatter> rsiScatters = new();
+        List<LinePlot> rsiLines = new();
+        List<Scatter> macdScatters = new();
+        List<BarPlot> macdBarPlots = new();
+
+        int rightAxisMin = -15;
+        int rightAxisMax = 100;
 
         public TradSPage()
         {
             InitializeComponent();
+            stockPlot.Plot.Legend.Orientation = ScottPlot.Orientation.Horizontal;
+            stockPlot.Plot.Legend.Alignment = Alignment.UpperLeft;
         }
 
         public void InitHistoricalPage(string stockId, List<Stock> stocks)
@@ -60,9 +72,9 @@ namespace VStock
                 ScatterSourceDoubleArray upperBandSSDA = new(dates, upperBand);
                 ScatterSourceDoubleArray lowerBandSSDA = new(dates, lowerBand);
                 ScatterSourceDoubleArray smaSSDA = new(dates, sma);
-                ScottPlot.Plottables.Scatter upperBandSp = new(upperBandSSDA);
-                ScottPlot.Plottables.Scatter lowerBandSp = new(lowerBandSSDA);
-                ScottPlot.Plottables.Scatter smaSp = new(smaSSDA);
+                Scatter upperBandSp = new(upperBandSSDA);
+                Scatter lowerBandSp = new(lowerBandSSDA);
+                Scatter smaSp = new(smaSSDA);
                 bbScatters.Add(upperBandSp);
                 bbScatters.Add(lowerBandSp);
                 bbScatters.Add(smaSp);
@@ -73,6 +85,71 @@ namespace VStock
                 smaSp.Color = Colors.Gray;
                 smaSp.LinePattern = LinePattern.Dotted;
                 smaSp.MarkerSize = 0;
+            }
+
+            // RSI
+            {
+                IEnumerable<RsiResult> rsiResults = stocks.GetRsi();
+                double[] dates = rsiResults.Where(r => r.Rsi != null).Select(r => r.Date.ToOADate()).ToArray();
+                double[] rsi = rsiResults.Where(r => r.Rsi != null).Select(r => (double)r.Rsi!).ToArray();
+                ScatterSourceDoubleArray rsiSSDA = new(dates, rsi);
+                Scatter rsiSp = new(rsiSSDA);
+                rsiScatters.Add(rsiSp);
+                rsiSp.Color = Colors.Orange;
+                rsiSp.MarkerSize = 0;
+                rsiSp.LineWidth = 2;
+                LinePlot upperLine = new()
+                {
+                    Start = new(dates.First(), 70),
+                    End = new(dates.Last(), 70),
+                    Color = Colors.Red,
+                    LinePattern = LinePattern.Dotted,
+                };
+                LinePlot lowerLine = new()
+                {
+                    Start = new(dates.First(), 30),
+                    End = new(dates.Last(), 30),
+                    Color = Colors.Green,
+                    LinePattern = LinePattern.Dotted,
+                };
+                rsiLines.Add(upperLine);
+                rsiLines.Add(lowerLine);
+            }
+
+            // MACD
+            {
+                IEnumerable<MacdResult> macdResults = stocks.GetMacd();
+                double[] dates = macdResults.Where(r => r.Macd != null).Select(r => r.Date.ToOADate()).ToArray();
+                double[] macd = macdResults.Where(r => r.Macd != null).Select(r => (double)r.Macd!).ToArray();
+                double[] signal = macdResults.Where(r => r.Signal != null).Select(r => (double)r.Signal!).ToArray();
+                double[] histogram = macdResults.Where(r => r.Histogram != null).Select(r => (double)r.Histogram!).ToArray();
+                ScatterSourceDoubleArray macdSSDA = new(dates, macd);
+                ScatterSourceDoubleArray signalSSDA = new(dates, signal);
+                Scatter macdSp = new(macdSSDA);
+                Scatter signalSp = new(signalSSDA);
+                macdScatters.Add(macdSp);
+                macdScatters.Add(signalSp);
+                macdSp.MarkerSize = 0;
+                macdSp.Color = Colors.Red;
+                macdSp.LineWidth = 2;
+                macdSp.LegendText = "MACD";
+                signalSp.MarkerSize = 0;
+                signalSp.Color = Colors.Blue;
+                signalSp.LineWidth = 2;
+                signalSp.LegendText = "Signal";
+                List<Bar> histogramBars = new();
+                foreach(var (date, histogramE) in dates.Zip(histogram))
+                {
+                    histogramBars.Add(new Bar()
+                    {
+                        Position = date,
+                        Value = histogramE,
+                        FillColor = Colors.SlateGray.WithAlpha(0.8),
+                        LineStyle = LineStyle.None,
+                    });
+                }
+                BarPlot histogramBarPlot = new(histogramBars);
+                macdBarPlots.Add(histogramBarPlot);
             }
 
             plt.Axes.DateTimeTicksBottom();
@@ -128,36 +205,48 @@ namespace VStock
             plt.Font.Automatic();
         }
 
+        private void UpdatePlottables(IEnumerable<IPlottable> plottable, bool addOrRemove)
+        {
+            if (addOrRemove)
+            {
+                foreach (var p in plottable)
+                {
+                    stockPlot.Plot.Add.Plottable(p);
+                }
+            }
+            else
+            {
+                foreach (var p in plottable)
+                {
+                    stockPlot.Plot.Remove(p);
+                }
+            }
+        }
+
         private void plotFn_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var plt = stockPlot.Plot;
             switch (e.Index)
             {
                 case 0:
-                    foreach (var smaScatter in smaScatters)
-                    {
-                        if (e.NewValue == CheckState.Checked)
-                        {
-                            plt.Add.Plottable(smaScatter);
-                        }
-                        else
-                        {
-                            plt.Remove(smaScatter);
-                        }
-                    }
+                    UpdatePlottables(smaScatters, e.NewValue == CheckState.Checked);
                     break;
                 case 1:
-                    foreach (var bbScatter in bbScatters)
-                    {
-                        if (e.NewValue == CheckState.Checked)
-                        {
-                            plt.Add.Plottable(bbScatter);
-                        }
-                        else
-                        {
-                            plt.Remove(bbScatter);
-                        }
-                    }
+                    UpdatePlottables(bbScatters, e.NewValue == CheckState.Checked);
+                    break;
+                case 2:
+                    UpdatePlottables(rsiScatters, e.NewValue == CheckState.Checked);
+                    UpdatePlottables(rsiLines, e.NewValue == CheckState.Checked);
+                    rsiScatters.First().Axes.YAxis = plt.Axes.Right;
+                    rsiLines.ForEach(line => line.Axes.YAxis = plt.Axes.Right);
+                    plt.Axes.SetLimitsY(bottom: rightAxisMin, top: rightAxisMax, yAxis: plt.Axes.Right);
+                    break;
+                case 3:
+                    UpdatePlottables(macdBarPlots, e.NewValue == CheckState.Checked);
+                    UpdatePlottables(macdScatters, e.NewValue == CheckState.Checked);
+                    macdScatters.ForEach(scatter => scatter.Axes.YAxis = plt.Axes.Right);
+                    macdBarPlots.First().Axes.YAxis = plt.Axes.Right;
+                    plt.Axes.SetLimitsY(bottom: rightAxisMin, top: rightAxisMax, yAxis: plt.Axes.Right);
                     break;
             }
             stockPlot.Refresh();

@@ -64,11 +64,11 @@
             // 
             plotFn.Enabled = false;
             plotFn.FormattingEnabled = true;
-            plotFn.Items.AddRange(new object[] { "SMA", "BolingerB" });
-            plotFn.Location = new Point(1803, 17);
+            plotFn.Items.AddRange(new object[] { "SMA", "BolingerB", "RSI", "MACD" });
+            plotFn.Location = new Point(1805, 17);
             plotFn.MultiColumn = true;
             plotFn.Name = "plotFn";
-            plotFn.Size = new Size(314, 74);
+            plotFn.Size = new Size(312, 74);
             plotFn.TabIndex = 3;
             plotFn.ItemCheck += plotFn_ItemCheck;
             // 
