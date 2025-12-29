@@ -31,6 +31,7 @@
             stockPlot = new ScottPlot.WinForms.FormsPlot();
             Title = new Label();
             Info = new Label();
+            plotFn = new CheckedListBox();
             SuspendLayout();
             // 
             // stockPlot
@@ -59,11 +60,24 @@
             Info.TabIndex = 2;
             Info.Text = "label1";
             // 
+            // plotFn
+            // 
+            plotFn.Enabled = false;
+            plotFn.FormattingEnabled = true;
+            plotFn.Items.AddRange(new object[] { "SMA", "BolingerB" });
+            plotFn.Location = new Point(1803, 17);
+            plotFn.MultiColumn = true;
+            plotFn.Name = "plotFn";
+            plotFn.Size = new Size(314, 74);
+            plotFn.TabIndex = 3;
+            plotFn.ItemCheck += plotFn_ItemCheck;
+            // 
             // TradSPage
             // 
             AutoScaleDimensions = new SizeF(14F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2148, 1064);
+            Controls.Add(plotFn);
             Controls.Add(Info);
             Controls.Add(Title);
             Controls.Add(stockPlot);
@@ -78,5 +92,6 @@
         private ScottPlot.WinForms.FormsPlot stockPlot;
         private Label Title;
         private Label Info;
+        private CheckedListBox plotFn;
     }
 }

@@ -61,6 +61,12 @@
                 }
                 if (stockIds.Count == 0)
                 {
+                
+                    if(StockIdInput.Text == "")
+                    {
+                        MessageBox.Show("請輸入股票代碼");
+                        return;
+                    }
                     stockIds.Add(StockIdInput.Text.ToUpper());
                 }
                 try
@@ -87,6 +93,11 @@
             }
             else
             {
+                if (StockIdInput.Text == "")
+                {
+                    MessageBox.Show("請輸入股票代碼");
+                    return;
+                }
                 if (DateFrom.Value >= DateTo.Value)
                 {
                     MessageBox.Show("結束日期必須大於開始日期");
