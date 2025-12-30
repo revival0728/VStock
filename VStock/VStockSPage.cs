@@ -4,18 +4,18 @@ namespace VStock
 {
     public partial class VStockSPage : Form
     {
-
-        Graphics graphics;
+        int cSLength;
+        Bitmap img;
 
         public VStockSPage()
         {
             InitializeComponent();
-            graphics = canvas.CreateGraphics();
+            cSLength = Math.Min(canvas.Height, canvas.Width);
+            img = new Bitmap(cSLength, cSLength);
         }
 
         void InitCanvas(List<Stock> stocks)
         {
-            graphics.Clear(Color.White);
             List<int> opens = stocks.Select(s => (int)s.Open.Round(0)).ToList();
             List<int> closes = stocks.Select(s => (int)s.Close.Round(0)).ToList();
             List<int> highs = stocks.Select(s => (int)s.High.Round(0)).ToList();
@@ -30,15 +30,16 @@ namespace VStock
             Matrix dateMat = Matrix.FromList(dates);
 
             int MC = 1 << 8;
-            Matrix R = closeMat.mul(openMat, MC);
-            Matrix G = highMat.mul(lowMat, MC);
-            Matrix B = volumeMat.mul(dateMat, MC);
-            Matrix A = openMat.mul(closeMat.mul(dateMat, MC), MC);
+            Matrix R = closeMat.Mul(openMat, MC);
+            Matrix G = highMat.Mul(lowMat, MC);
+            Matrix B = volumeMat.Mul(dateMat, MC);
+            Matrix A = openMat.Mul(closeMat.Mul(dateMat, MC), MC);
+            Matrix gR = new Matrix(cSLength, cSLength);
+            Matrix gG = new Matrix(cSLength, cSLength);
+            Matrix gB = new Matrix(cSLength, cSLength);
+            Matrix gA = new Matrix(cSLength, cSLength);
 
-            int cHeight = canvas.Height;
-            int cWidth = canvas.Width;
-            Info.Text = $"畫布大小: {cWidth}x{cHeight}, 矩陣大小: {R.Col}x{R.Row}, 每像素矩陣元素數量: 1";
-            if (cHeight >= R.Row && cWidth >= R.Col)
+            if (cSLength >= R.Row && cSLength >= R.Col)
             {
                 for (int i = 0; i < R.Row; i++)
                 {
@@ -50,22 +51,26 @@ namespace VStock
                         int a = A[i, j];
                         Color color = Color.FromArgb(a, r, g, b);
                         Brush brush = new SolidBrush(color);
-                        int rectWidth = cWidth / R.Col;
-                        int rectHeight = cHeight / R.Row;
-                        graphics.FillRectangle(brush, j * rectWidth, i * rectHeight, rectWidth, rectHeight);
+                        int rectWidth = cSLength / R.Col;
+                        int rectHeight = cSLength / R.Row;
+                        gR.Fill(j * rectWidth, i * rectHeight, rectWidth, rectHeight, r);
+                        gG.Fill(j * rectWidth, i * rectHeight, rectWidth, rectHeight, g);
+                        gB.Fill(j * rectWidth, i * rectHeight, rectWidth, rectHeight, b);
+                        gA.Fill(j * rectWidth, i * rectHeight, rectWidth, rectHeight, a);
                     }
                 }
-            } else
+            }
+            else
             {
-                for (int i = 0; i < cHeight; i++)
+                for (int i = 0; i < cSLength; i++)
                 {
-                    for (int j = 0; j < cWidth; j++)
+                    for (int j = 0; j < cSLength; j++)
                     {
-                        int ratio = R.Row / cHeight;
+                        int ratio = R.Row / cSLength;
                         int r = 0, g = 0, b = 0, a = 0;
-                        for (int k = 0; k < cHeight; ++k)
+                        for (int k = 0; k < cSLength; ++k)
                         {
-                            for (int l = 0; l < cWidth; ++l)
+                            for (int l = 0; l < cSLength; ++l)
                             {
                                 r += R[i * ratio + k, j * ratio + l];
                                 g += G[i * ratio + k, j * ratio + l];
@@ -80,12 +85,25 @@ namespace VStock
                         a /= ratioSq;
                         Color color = Color.FromArgb(a, r, g, b);
                         Brush brush = new SolidBrush(color);
-                        graphics.FillRectangle(brush, j, i, 1, 1);
+                        gR[i, j] = r;
+                        gG[i, j] = g;
+                        gB[i, j] = b;
+                        gA[i, j] = a;
                     }
                 }
             }
-            canvas.Refresh();
-            canvas.Invalidate();
+            for (int i = 0; i < cSLength; i++)
+            {
+                for (int j = 0; j < cSLength; j++)
+                {
+                    int r = gR[i, j];
+                    int g = gG[i, j];
+                    int b = gB[i, j];
+                    int a = gA[i, j];
+                    Color color = Color.FromArgb(a, r, g, b);
+                    img.SetPixel(j, i, color);
+                }
+            }
         }
         public void InitHistoricalPage(string stockId, List<Stock> stocks)
         {
@@ -98,6 +116,11 @@ namespace VStock
             this.Text = $"即時多股分析圖";
             Title.Text = $"即時多股分析圖";
             InitCanvas(stocks);
+        }
+
+        private void canvas_Paint(object sender, PaintEventArgs e)
+        {
+            canvas.Image = img;
         }
     }
 }

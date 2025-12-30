@@ -28,17 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            canvas = new Panel();
             Title = new Label();
             Info = new Label();
+            canvas = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)canvas).BeginInit();
             SuspendLayout();
-            // 
-            // canvas
-            // 
-            canvas.Location = new Point(977, 50);
-            canvas.Name = "canvas";
-            canvas.Size = new Size(1000, 1000);
-            canvas.TabIndex = 0;
             // 
             // Title
             // 
@@ -58,24 +52,34 @@
             Info.TabIndex = 2;
             Info.Text = "label1";
             // 
+            // canvas
+            // 
+            canvas.BorderStyle = BorderStyle.FixedSingle;
+            canvas.Location = new Point(957, 50);
+            canvas.Name = "canvas";
+            canvas.Size = new Size(1000, 1000);
+            canvas.TabIndex = 3;
+            canvas.TabStop = false;
+            canvas.Paint += canvas_Paint;
+            // 
             // VStockSPage
             // 
             AutoScaleDimensions = new SizeF(14F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2020, 1104);
+            Controls.Add(canvas);
             Controls.Add(Info);
             Controls.Add(Title);
-            Controls.Add(canvas);
             Name = "VStockSPage";
             Text = "VStockSPage";
+            ((System.ComponentModel.ISupportInitialize)canvas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Panel canvas;
         private Label Title;
         private Label Info;
+        private PictureBox canvas;
     }
 }

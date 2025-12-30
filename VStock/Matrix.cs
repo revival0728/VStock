@@ -45,7 +45,7 @@
             }
             return matrix;
         }
-        public Matrix mul(Matrix other, int M = 0)
+        public Matrix Mul(Matrix other, int M = 0)
         {
             if (Col != other.Row)
             {
@@ -65,6 +65,17 @@
                 }
             }
             return result;
+        }
+
+        public void Fill(int x, int y, int row, int col, int value)
+        {
+            for (int i = x; i < x + row; ++i)
+            {
+                for (int j = y; j < y + col; ++j)
+                {
+                    mat[i, j] = value;
+                }
+            }
         }
     }
 }
