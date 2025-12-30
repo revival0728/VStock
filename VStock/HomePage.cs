@@ -3,6 +3,7 @@
     public partial class HomePage : Form
     {
         TradSPage tradSPage = new TradSPage();
+        VStockSPage vStockSPage = new VStockSPage();
 
         readonly string searchingString = "查詢中...";
         readonly string tradSString = "傳統查詢分析";
@@ -115,6 +116,11 @@
                         stockId,
                         DateFrom.Value,
                         DateTo.Value);
+                    if (stocks.Count == 0)
+                    {
+                        MessageBox.Show("時間區間內查無此股票資料");
+                        return;
+                    }
                     tradSPage = new TradSPage();
                     tradSPage.InitHistoricalPage(stockId, stocks);
                     tradSPage.Show();
@@ -134,32 +140,90 @@
             SearchTrad.Text = tradSString;
         }
 
-        private void SearchVStock_Click(object sender, EventArgs e)
+        private async void SearchVStock_Click(object sender, EventArgs e)
         {
             SearchVStock.Text = searchingString;
             var nowTime = DateTime.Now;
-            // TODO: Implement search functionality
             if (SRealTime.Checked)
             {
+                List<string> stockIds = new List<string>();
                 for (int i = 0; i < SearchList.Items.Count; i++)
                 {
                     var item = SearchList.Items[i];
-                    HistoryView.Items.Add(new ListViewItem(new string[]
+                    string stockId = item.Text.ToUpper();
+                    stockIds.Add(stockId);
+                }
+                if (stockIds.Count == 0)
+                {
+
+                    if (StockIdInput.Text == "")
                     {
-                        nowTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        item.Text,
-                        "VSR",
-                    }));
+                        MessageBox.Show("請輸入股票代碼");
+                        return;
+                    }
+                    stockIds.Add(StockIdInput.Text.ToUpper());
+                }
+                try
+                {
+                    List<Stock> stocks = await Crawler.GetRealTime(stockIds);
+                    vStockSPage = new VStockSPage();
+                    vStockSPage.InitRealTimePage(stockIds, stocks);
+                    vStockSPage.Show();
+                    foreach(var stockId in stockIds)
+                    {
+                        HistoryView.Items.Add(new ListViewItem(new string[]
+                        {
+                            nowTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                            stockId,
+                            "VSR",
+                        }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"取得即時股價失敗: {ex.Message}");
+                    return;
                 }
             }
             else
             {
-                HistoryView.Items.Add(new ListViewItem(new string[]
+                if (StockIdInput.Text == "")
                 {
-                    nowTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    StockIdInput.Text.ToUpper(),
-                    "VSH",
-                }));
+                    MessageBox.Show("請輸入股票代碼");
+                    return;
+                }
+                if (DateFrom.Value >= DateTo.Value)
+                {
+                    MessageBox.Show("結束日期必須大於開始日期");
+                    return;
+                }
+                try
+                {
+                    string stockId = StockIdInput.Text.ToUpper();
+                    List<Stock> stocks = await Crawler.GetHistorical(
+                        stockId,
+                        DateFrom.Value,
+                        DateTo.Value);
+                    if (stocks.Count == 0)
+                    {
+                        MessageBox.Show("時間區間內查無此股票資料");
+                        return;
+                    }
+                    vStockSPage = new VStockSPage();
+                    vStockSPage.InitHistoricalPage(stockId, stocks);
+                    vStockSPage.Show();
+                    HistoryView.Items.Add(new ListViewItem(new string[]
+                    {
+                        nowTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        stockId,
+                        "VSH",
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"取得歷史股價失敗: {ex.Message}");
+                    return;
+                }
             }
             SearchVStock.Text = vStockSString;
         }
