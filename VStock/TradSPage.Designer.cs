@@ -38,7 +38,7 @@
             // 
             stockPlot.DisplayScale = 2F;
             stockPlot.Location = new Point(11, 83);
-            stockPlot.Margin = new Padding(2, 2, 2, 2);
+            stockPlot.Margin = new Padding(2);
             stockPlot.Name = "stockPlot";
             stockPlot.Size = new Size(1049, 479);
             stockPlot.TabIndex = 0;
@@ -68,11 +68,11 @@
             plotFn.Enabled = false;
             plotFn.FormattingEnabled = true;
             plotFn.Items.AddRange(new object[] { "SMA", "BolingerB", "RSI", "MACD" });
-            plotFn.Location = new Point(827, 11);
-            plotFn.Margin = new Padding(2, 2, 2, 2);
+            plotFn.Location = new Point(812, 11);
+            plotFn.Margin = new Padding(2);
             plotFn.MultiColumn = true;
             plotFn.Name = "plotFn";
-            plotFn.Size = new Size(233, 58);
+            plotFn.Size = new Size(248, 58);
             plotFn.TabIndex = 3;
             plotFn.ItemCheck += plotFn_ItemCheck;
             // 
@@ -85,7 +85,7 @@
             Controls.Add(Info);
             Controls.Add(Title);
             Controls.Add(stockPlot);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "TradSPage";
             Text = "TradSPage";
             FormClosing += TradSPage_FormClosing;

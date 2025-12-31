@@ -146,6 +146,14 @@ namespace VStock
 
             List<OHLC> ohlcStocks = stocks.Select(s => s.ToOHLC()).ToList();
             plt.Add.Candlestick(ohlcStocks);
+            plt.Axes.DateTimeTicksBottom();
+            plt.Axes.SetLimitsX(from.AddDays(-1).ToOADate(), to.AddDays(1).ToOADate());
+            double offset = (double)(durMax - durMin) * 0.1;
+            plt.Axes.SetLimitsY((double)durMin - offset, (double)durMax + offset);
+            plt.ScaleFactor = 2;
+            plt.Font.Automatic();
+            stockPlot.Refresh();
+            plotFn.Enabled = true;
 
             // SMA
             {
@@ -201,14 +209,6 @@ namespace VStock
                     InitMacd(dates, macd, signal, histogram);
                 }
             }
-
-            plt.Axes.DateTimeTicksBottom();
-            plt.Axes.SetLimitsX(from.AddDays(-1).ToOADate(), to.AddDays(-1).ToOADate());
-            plt.Axes.SetLimitsY((double)durMin - 10, (double)durMax + 10);
-            plt.ScaleFactor = 2;
-            plt.Font.Automatic();
-            stockPlot.Refresh();
-            plotFn.Enabled = true;
         }
 
         public void InitRealTimePage(List<string> stockIds, List<Stock> stocks)
