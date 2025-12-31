@@ -37,26 +37,29 @@
             // stockPlot
             // 
             stockPlot.DisplayScale = 2F;
-            stockPlot.Location = new Point(25, 94);
+            stockPlot.Location = new Point(11, 83);
+            stockPlot.Margin = new Padding(2, 2, 2, 2);
             stockPlot.Name = "stockPlot";
-            stockPlot.Size = new Size(2111, 958);
+            stockPlot.Size = new Size(1049, 479);
             stockPlot.TabIndex = 0;
             // 
             // Title
             // 
             Title.AutoSize = true;
-            Title.Location = new Point(49, 18);
+            Title.Location = new Point(24, 11);
+            Title.Margin = new Padding(2, 0, 2, 0);
             Title.Name = "Title";
-            Title.Size = new Size(81, 30);
+            Title.Size = new Size(42, 15);
             Title.TabIndex = 1;
             Title.Text = "label1";
             // 
             // Info
             // 
             Info.AutoSize = true;
-            Info.Location = new Point(49, 61);
+            Info.Location = new Point(24, 41);
+            Info.Margin = new Padding(2, 0, 2, 0);
             Info.Name = "Info";
-            Info.Size = new Size(81, 30);
+            Info.Size = new Size(42, 15);
             Info.TabIndex = 2;
             Info.Text = "label1";
             // 
@@ -65,22 +68,24 @@
             plotFn.Enabled = false;
             plotFn.FormattingEnabled = true;
             plotFn.Items.AddRange(new object[] { "SMA", "BolingerB", "RSI", "MACD" });
-            plotFn.Location = new Point(1805, 17);
+            plotFn.Location = new Point(827, 11);
+            plotFn.Margin = new Padding(2, 2, 2, 2);
             plotFn.MultiColumn = true;
             plotFn.Name = "plotFn";
-            plotFn.Size = new Size(312, 74);
+            plotFn.Size = new Size(233, 58);
             plotFn.TabIndex = 3;
             plotFn.ItemCheck += plotFn_ItemCheck;
             // 
             // TradSPage
             // 
-            AutoScaleDimensions = new SizeF(14F, 30F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2148, 1064);
+            ClientSize = new Size(1083, 585);
             Controls.Add(plotFn);
             Controls.Add(Info);
             Controls.Add(Title);
             Controls.Add(stockPlot);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "TradSPage";
             Text = "TradSPage";
             FormClosing += TradSPage_FormClosing;
