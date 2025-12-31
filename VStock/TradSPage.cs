@@ -46,7 +46,7 @@ namespace VStock
             sp.Color = Colors.Navy.WithAlpha(colorAlpha);
             hasSma = true;
         }
-        
+
         void InitBollingerBands(double[] dates, double[] upperBand, double[] lowerBand, double[] sma)
         {
             ScatterSourceDoubleArray upperBandSSDA = new(dates, upperBand);
@@ -172,7 +172,7 @@ namespace VStock
                 double[] upperBand = bbResults.Where(r => r.UpperBand != null).Select(r => (double)r.UpperBand!).ToArray();
                 double[] lowerBand = bbResults.Where(r => r.LowerBand != null).Select(r => (double)r.LowerBand!).ToArray();
                 double[] sma = bbResults.Where(r => r.Sma != null).Select(r => (double)r.Sma!).ToArray();
-                if(dates.Length > 0 && upperBand.Length > 0 && lowerBand.Length > 0 && sma.Length > 0)
+                if (dates.Length > 0 && upperBand.Length > 0 && lowerBand.Length > 0 && sma.Length > 0)
                 {
                     InitBollingerBands(dates, upperBand, lowerBand, sma);
                 }
@@ -183,7 +183,7 @@ namespace VStock
                 IEnumerable<RsiResult> rsiResults = stocks.GetRsi();
                 double[] dates = rsiResults.Where(r => r.Rsi != null).Select(r => r.Date.ToOADate()).ToArray();
                 double[] rsi = rsiResults.Where(r => r.Rsi != null).Select(r => (double)r.Rsi!).ToArray();
-                if(dates.Length > 0 && rsi.Length > 0)
+                if (dates.Length > 0 && rsi.Length > 0)
                 {
                     InitRsi(dates, rsi);
                 }
@@ -196,7 +196,7 @@ namespace VStock
                 double[] macd = macdResults.Where(r => r.Macd != null).Select(r => (double)r.Macd!).ToArray();
                 double[] signal = macdResults.Where(r => r.Signal != null).Select(r => (double)r.Signal!).ToArray();
                 double[] histogram = macdResults.Where(r => r.Histogram != null).Select(r => (double)r.Histogram!).ToArray();
-                if(dates.Length > 0 && macd.Length > 0 && signal.Length > 0 && histogram.Length > 0)
+                if (dates.Length > 0 && macd.Length > 0 && signal.Length > 0 && histogram.Length > 0)
                 {
                     InitMacd(dates, macd, signal, histogram);
                 }
@@ -288,7 +288,7 @@ namespace VStock
                     UpdatePlottables(smaScatters, e.NewValue == CheckState.Checked);
                     break;
                 case 1:
-                    if(!hasBollingerB)
+                    if (!hasBollingerB)
                     {
                         MessageBox.Show("此股票選取的時間區間無法計算 Bollinger Bands 指標");
                         e.NewValue = e.CurrentValue;
@@ -297,7 +297,7 @@ namespace VStock
                     UpdatePlottables(bbScatters, e.NewValue == CheckState.Checked);
                     break;
                 case 2:
-                    if(!hasRsi)
+                    if (!hasRsi)
                     {
                         MessageBox.Show("此股票選取的時間區間無法計算 RSI 指標");
                         e.NewValue = e.CurrentValue;
@@ -310,7 +310,7 @@ namespace VStock
                     plt.Axes.SetLimitsY(bottom: rightAxisMin, top: rightAxisMax, yAxis: plt.Axes.Right);
                     break;
                 case 3:
-                    if(!hasMacd)
+                    if (!hasMacd)
                     {
                         MessageBox.Show("此股票選取的時間區間無法計算 MACD 指標");
                         e.NewValue = e.CurrentValue;
@@ -326,6 +326,12 @@ namespace VStock
                     break;
             }
             stockPlot.Refresh();
+        }
+
+        private void TradSPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true;
         }
     }
 }

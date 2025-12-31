@@ -251,9 +251,9 @@ namespace VStock
 
         private void SaveImg_Click(object sender, EventArgs e)
         {
-            if(StairMode.Checked)
+            if (StairMode.Checked)
             {
-                if(!hasStairImg)
+                if (!hasStairImg)
                 {
                     MakeStairImg(R, G, B, A);
                 }
@@ -281,6 +281,12 @@ namespace VStock
                     noiseImg.Save(sfd.FileName);
                 }
             }
+        }
+
+        private void VStockSPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true;
         }
     }
 }

@@ -122,6 +122,7 @@
             Controls.Add(Title);
             Name = "VStockSPage";
             Text = "VStockSPage";
+            FormClosing += VStockSPage_FormClosing;
             ((System.ComponentModel.ISupportInitialize)canvas).EndInit();
             Mode.ResumeLayout(false);
             Mode.PerformLayout();

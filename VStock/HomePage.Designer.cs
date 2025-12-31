@@ -53,13 +53,16 @@
             // HistoryView
             // 
             HistoryView.Columns.AddRange(new ColumnHeader[] { TimeStamp, StockId, SearchType });
+            HistoryView.FullRowSelect = true;
             HistoryView.Location = new Point(37, 81);
-            HistoryView.Margin = new Padding(5, 5, 5, 5);
+            HistoryView.Margin = new Padding(5);
+            HistoryView.MultiSelect = false;
             HistoryView.Name = "HistoryView";
             HistoryView.Size = new Size(709, 658);
             HistoryView.TabIndex = 0;
             HistoryView.UseCompatibleStateImageBehavior = false;
             HistoryView.View = View.Details;
+            HistoryView.DoubleClick += HistoryView_DoubleClick;
             // 
             // TimeStamp
             // 
@@ -98,9 +101,9 @@
             SearchArea.Controls.Add(label2);
             SearchArea.Controls.Add(StockIdInput);
             SearchArea.Location = new Point(790, 81);
-            SearchArea.Margin = new Padding(5, 5, 5, 5);
+            SearchArea.Margin = new Padding(5);
             SearchArea.Name = "SearchArea";
-            SearchArea.Padding = new Padding(5, 5, 5, 5);
+            SearchArea.Padding = new Padding(5);
             SearchArea.Size = new Size(558, 357);
             SearchArea.TabIndex = 2;
             SearchArea.TabStop = false;
@@ -120,7 +123,7 @@
             // 
             DateTo.Enabled = false;
             DateTo.Location = new Point(126, 284);
-            DateTo.Margin = new Padding(5, 5, 5, 5);
+            DateTo.Margin = new Padding(5);
             DateTo.Name = "DateTo";
             DateTo.Size = new Size(387, 38);
             DateTo.TabIndex = 6;
@@ -139,7 +142,7 @@
             // 
             DateFrom.Enabled = false;
             DateFrom.Location = new Point(126, 232);
-            DateFrom.Margin = new Padding(5, 5, 5, 5);
+            DateFrom.Margin = new Padding(5);
             DateFrom.Name = "DateFrom";
             DateFrom.Size = new Size(387, 38);
             DateFrom.TabIndex = 4;
@@ -148,7 +151,7 @@
             // 
             SHistory.AutoSize = true;
             SHistory.Location = new Point(25, 186);
-            SHistory.Margin = new Padding(5, 5, 5, 5);
+            SHistory.Margin = new Padding(5);
             SHistory.Name = "SHistory";
             SHistory.Size = new Size(140, 34);
             SHistory.TabIndex = 3;
@@ -161,7 +164,7 @@
             SRealTime.AutoSize = true;
             SRealTime.Checked = true;
             SRealTime.Location = new Point(25, 141);
-            SRealTime.Margin = new Padding(5, 5, 5, 5);
+            SRealTime.Margin = new Padding(5);
             SRealTime.Name = "SRealTime";
             SRealTime.Size = new Size(140, 34);
             SRealTime.TabIndex = 2;
@@ -183,7 +186,7 @@
             // 
             StockIdInput.BorderStyle = BorderStyle.FixedSingle;
             StockIdInput.Location = new Point(126, 68);
-            StockIdInput.Margin = new Padding(5, 5, 5, 5);
+            StockIdInput.Margin = new Padding(5);
             StockIdInput.Name = "StockIdInput";
             StockIdInput.Size = new Size(416, 38);
             StockIdInput.TabIndex = 0;
@@ -191,7 +194,7 @@
             // SearchList
             // 
             SearchList.Location = new Point(790, 447);
-            SearchList.Margin = new Padding(5, 5, 5, 5);
+            SearchList.Margin = new Padding(5);
             SearchList.Name = "SearchList";
             SearchList.Size = new Size(556, 92);
             SearchList.TabIndex = 3;
@@ -201,7 +204,7 @@
             // SListAdd
             // 
             SListAdd.Location = new Point(800, 567);
-            SListAdd.Margin = new Padding(5, 5, 5, 5);
+            SListAdd.Margin = new Padding(5);
             SListAdd.Name = "SListAdd";
             SListAdd.Size = new Size(252, 73);
             SListAdd.TabIndex = 4;
@@ -212,7 +215,7 @@
             // SListDel
             // 
             SListDel.Location = new Point(1087, 567);
-            SListDel.Margin = new Padding(5, 5, 5, 5);
+            SListDel.Margin = new Padding(5);
             SListDel.Name = "SListDel";
             SListDel.Size = new Size(246, 73);
             SListDel.TabIndex = 5;
@@ -223,7 +226,7 @@
             // SearchVStock
             // 
             SearchVStock.Location = new Point(1087, 666);
-            SearchVStock.Margin = new Padding(5, 5, 5, 5);
+            SearchVStock.Margin = new Padding(5);
             SearchVStock.Name = "SearchVStock";
             SearchVStock.Size = new Size(246, 74);
             SearchVStock.TabIndex = 7;
@@ -234,7 +237,7 @@
             // SearchTrad
             // 
             SearchTrad.Location = new Point(800, 666);
-            SearchTrad.Margin = new Padding(5, 5, 5, 5);
+            SearchTrad.Margin = new Padding(5);
             SearchTrad.Name = "SearchTrad";
             SearchTrad.Size = new Size(252, 74);
             SearchTrad.TabIndex = 6;
@@ -255,7 +258,7 @@
             Controls.Add(SearchArea);
             Controls.Add(label1);
             Controls.Add(HistoryView);
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             Name = "HomePage";
             Text = "VStock";
             SearchArea.ResumeLayout(false);

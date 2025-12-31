@@ -83,6 +83,7 @@
             Controls.Add(stockPlot);
             Name = "TradSPage";
             Text = "TradSPage";
+            FormClosing += TradSPage_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }
