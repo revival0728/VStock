@@ -13,6 +13,20 @@
             Col = col;
             mat = new int[row, col];
         }
+
+        public static Matrix Ones(int row, int col)
+        {
+            Matrix matrix = new(row, col);
+            for (int i = 0; i < row; ++i)
+            {
+                for (int j = 0; j < col; ++j)
+                {
+                    matrix[i, j] = 1;
+                }
+            }
+            return matrix;
+        }
+
         public int this[int row, int col]
         {
             get { return mat[row, col]; }
@@ -74,6 +88,17 @@
                 for (int j = y; j < y + col; ++j)
                 {
                     mat[i, j] = value;
+                }
+            }
+        }
+
+        public void Apply(Func<int, int> func)
+        {
+            for(int i = 0; i < Row; ++i)
+            {
+                for(int j = 0; j < Col; ++j)
+                {
+                    mat[i, j] = func(mat[i, j]);
                 }
             }
         }
