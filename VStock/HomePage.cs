@@ -12,6 +12,7 @@
         public HomePage()
         {
             InitializeComponent();
+            StockIdInput.CharacterCasing = CharacterCasing.Upper;
         }
 
         private void SHistory_CheckedChanged(object sender, EventArgs e)
@@ -54,7 +55,7 @@
 
         private async void SearchTrad_Click(object sender, EventArgs e)
         {
-            if(isSearching)
+            if (isSearching)
             {
                 MessageBox.Show("查詢中...");
                 return;
@@ -261,6 +262,15 @@
             int index = HistoryView.SelectedIndices[0];
             string time = HistoryView.Items[index].SubItems[0].Text;
             sPages[time].Show();
+        }
+
+        private void StockIdInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(char.IsWhiteSpace(((char)e.KeyCode)))
+            {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
         }
     }
 }
